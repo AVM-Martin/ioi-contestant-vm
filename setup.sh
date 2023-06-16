@@ -27,14 +27,14 @@ timedatectl set-timezone Asia/Jakarta
 vmware-toolbox-cmd timesync enable
 hwclock -w
 
-# Install zabbix repo
-wget -O /tmp/zabbix-release_5.0-1+focal_all.deb https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
-dpkg -i /tmp/zabbix-release_5.0-1+focal_all.deb
-
 # Update packages
 
 apt -y update
 apt -y upgrade
+
+# Install zabbix repo
+wget -O /tmp/zabbix-release_5.0-1+focal_all.deb https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
+dpkg -i /tmp/zabbix-release_5.0-1+focal_all.deb
 
 # Convert server install into a minimuam desktop install
 
