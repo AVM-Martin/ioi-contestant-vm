@@ -21,6 +21,9 @@ if [ -f "config.local.sh" ]; then
 	source config.local.sh
 fi
 
+# auto restart for ubuntu 22.04
+NEEDRESTART_MODE=a
+
 # Fix up date/time
 
 timedatectl set-timezone Asia/Jakarta
