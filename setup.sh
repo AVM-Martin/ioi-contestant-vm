@@ -33,8 +33,8 @@ apt -y update
 apt -y upgrade
 
 # Install zabbix repo
-wget -O /tmp/zabbix-release_5.0-1+focal_all.deb https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
-dpkg -i /tmp/zabbix-release_5.0-1+focal_all.deb
+wget -O /tmp/zabbix-release.deb https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-2+ubuntu22.04_all.deb
+dpkg -i /tmp/zabbix-release.deb
 
 # Convert server install into a minimuam desktop install
 
