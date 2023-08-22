@@ -160,8 +160,8 @@ EOM
 		if [ -f "/usr/share/zoneinfo/$2" ]; then
 			cat - <<EOM
 Your timezone will be set to $2 at your next login.
-*** Please take note that all dates and times communicated by the IOI 2022 ***
-*** organisers will be in Asia/Jakarta timezone (GMT+07), unless it is     ***
+*** Please take note that all dates and times communicated by the IOI 2023 ***
+*** organisers will be in Europe/Budapest timezone (GMT+2), unless it is     ***
 *** otherwise specified.                                                   ***
 EOM
 			echo "$2" > /opt/ioi/config/timezone
@@ -187,20 +187,20 @@ EOM
 Invalid argument to setautobackup. Specify "on" to enable automatic backup
 of home directory, or "off" to disable automatic backup. You can always run
 "ioibackup" manually to backup at any time. Backups will only include
-non-hidden files less than 1MB in size.
+non-hidden files less than 100KB in size.
 EOM
 		fi
 		;;
 	setscreenlock)
 		if [ "$2" = "on" ]; then
 			touch /opt/ioi/config/screenlock
-			sudo -Hu ioi xvfb-run gsettings set org.gnome.desktop.screensaver lock-enabled true
+			sudo -Hu ioi dbus-run-session gsettings set org.gnome.desktop.screensaver lock-enabled true
 			echo Screensaver lock enabled
 		elif [ "$2" = "off" ]; then
 			if [ -f /opt/ioi/config/screenlock ]; then
 				rm /opt/ioi/config/screenlock
 			fi
-			sudo -Hu ioi xvfb-run gsettings set org.gnome.desktop.screensaver lock-enabled false
+			sudo -Hu ioi dbus-run-session gsettings set org.gnome.desktop.screensaver lock-enabled false
 			echo Screensaver lock disabled
 		else
 			cat - <<EOM
@@ -210,23 +210,11 @@ EOM
 		fi
 		;;
 	getpubkey)
-		curl -m 5 -s -f -o /opt/ioi/misc/id_ansible.pub "https://$POP_SERVER/ansible.pub" > /dev/null 2>&1
-		RC=$?
-		if [ ${RC} -ne 0 ]; then
-			exit ${RC}
-		fi
-		chmod 664 /opt/ioi/misc/id_ansible.pub
-		chown ansible:ansible /opt/ioi/misc/id_ansible.pub
-
-		cp /opt/ioi/misc/id_ansible.pub /home/ansible/.ssh/authorized_keys
-		chmod 600 /home/ansible/.ssh/authorized_keys
-		chown ansible:ansible /home/ansible/.ssh/authorized_keys
+		# XXX
 		exit 0
 		;;
 	keyscan)
-		mkdir -p /root/.ssh
-		ssh-keyscan -H ${BACKUP_SERVER} > /root/.ssh/known_hosts 2> /dev/null
-		chmod 600 /root/.ssh/known_hosts
+		# XXX
 		;;
 	*)
 		echo Not allowed
