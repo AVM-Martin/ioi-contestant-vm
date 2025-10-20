@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>IOI 2025 - Contestant Machine Manual</title>
+  <style>
+    @font-face {
+      font-family: 'Share';
+      font-style: normal;
+      font-weight: 400;
+      src: url('fonts/share-v11-latin-regular.eot');
+      src: local('Share Regular'), local('Share-Regular'),
+        url('fonts/share-v11-latin-regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/share-v11-latin-regular.woff2') format('woff2'),
+        url('fonts/share-v11-latin-regular.woff') format('woff'),
+        url('fonts/share-v11-latin-regular.ttf') format('truetype'),
+        url('fonts/share-v11-latin-regular.svg#Share') format('svg');
+    }
+
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 400;
+      src: url('fonts/fira-sans-v10-latin-regular.eot');
+      src: local('Fira Sans Regular'), local('FiraSans-Regular'),
+        url('fonts/fira-sans-v10-latin-regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/fira-sans-v10-latin-regular.woff2') format('woff2'),
+        url('fonts/fira-sans-v10-latin-regular.woff') format('woff'),
+        url('fonts/fira-sans-v10-latin-regular.ttf') format('truetype'),
+        url('fonts/fira-sans-v10-latin-regular.svg#FiraSans') format('svg');
+    }
+
+    body {
+      font-family: "Fira Sans", sans-serif;
+      font-size: 100%;
+      line-height: 1.6;
+      margin: 2rem;
+      color: #333;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Share', serif;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-top: 2rem;
+    }
+
+    h3 {
+      font-size: 1.2em;
+    }
+
+    code {
+      background-color: #f5f5f5;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+
+    ul, ol {
+      margin-left: 2rem;
+    }
+
+    img {
+      margin: 1rem 0;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Contestant Machine Manual</h1>
+
+  <h2>Local User Account</h2>
+  <p>Each contestant machine has a single local (Ubuntu 24.04) user account: <code>ioi</code>, with the default password <code>ioi</code>.</p>
+  <p><strong>Do not change</strong> the password of the <code>ioi</code> account to avoid confusion.</p>
+
+  <h2>Contestant Account</h2>
+  <p>Upon your first login, and every subsequent login until the process is complete, you will be prompted to run the <strong>IOI Setup</strong>.</p>
+  <p>Use your contestant credentials (currently both username and password are <code>ioi</code>) and wait for a success confirmation.</p>
+
+  <h2>Applications</h2>
+  <p>The sidebar on the left is called the <strong>Launcher</strong>.</p>
+  <p>The top icon launches the <strong>Firefox</strong> web browser, which opens to a homepage containing links to CMS and local documentation.</p>
+  <p>The <strong>Show Applications</strong> icon at the bottom of the Launcher displays all installed applications. Use the search bar to find apps by name, e.g., typing <code>terminal</code> will locate <code>gnome-terminal</code>.</p>
+
+  <h2>Advanced Features</h2>
+
+  <h3>Home Directory Backup (not yet available)</h3>
+  <p>The system supports replication of the home directory using <code>rsync</code> to the IOI 2025 backup server. This feature is disabled by default.</p>
+  <ul>
+    <li>Use <code>ioibackup</code> to trigger a manual sync.</li>
+    <li>Enable automatic backup every 5 minutes using <code>ioiconf setautobackup on</code>.</li>
+    <li>Disable it with <code>ioiconf setautobackup off</code>.</li>
+  </ul>
+  <p>Backups are only available during contest and practice sessions.</p>
+  <p>Note: This is a replication (not archival) system. It uses <code>rsync --delete</code>, which mirrors local deletions on the remote server. Only non-hidden files under 100KB are synced.</p>
+  <p>To recover files, use <code>ioibackup -r</code>. Files will be restored in <code>/tmp/restore</code>.</p>
+
+  <h3>Automatic Screen Lock</h3>
+  <p>The screen locks after 15 minutes of inactivity, with a 30-second warning. To disable this:</p>
+  <ul>
+    <li><code>ioiconf setscreenlock off</code> — disable</li>
+    <li><code>ioiconf setscreenlock on</code> — re-enable</li>
+  </ul>
+
+  <h3>Timezone</h3>
+  <p>The system clock is set to the <strong>America/La_Paz</strong> timezone. All official times from the IOI 2025 organizers use this timezone unless stated otherwise.</p>
+  <p>If you prefer another timezone, use <code>ioiconf settz &lt;timezone&gt;</code>. Example:</p>
+  <p><code>ioiconf settz UTC</code></p>
+  <p>This takes effect at your next login.</p>
+
+  <h3>Importing VSCode Extensions</h3>
+  <p>The C/C++ extension is preinstalled. The following additional extensions are available for manual installation:</p>
+  <ul>
+    <li>VSCode VIM</li>
+    <li>IntelliJ IDEA Keybindings</li>
+    <li>clangd (as an alternative to the C/C++ extension; known to be occasionally unstable)</li>
+  </ul>
+
+  <p>To install:</p>
+  <ol>
+    <li>Open VSCode</li>
+    <li>Click the Extensions icon on the left sidebar</li>
+    <li>Click the "..." menu in the top-right corner</li>
+    <li>Select "Install from VSIX..."</li>
+    <li>Navigate to the <code>extra-vsc-exts</code> bookmark</li>
+    <li>Select the desired extension</li>
+  </ol>
+
+  <div>
+    <img src="manual-import-vsix-1.png" alt="VSIX Import Step 1">
+    <img src="manual-import-vsix-2.png" alt="VSIX Import Step 2">
+  </div>
+
+</body>
+
+</html>

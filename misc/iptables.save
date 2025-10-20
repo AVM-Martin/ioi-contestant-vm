@@ -7,17 +7,19 @@
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -p icmp -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
--A INPUT -p tcp -m tcp -s {SUBNET} --dport 10050 -j ACCEPT
 -A OUTPUT -o lo -j ACCEPT
 -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A OUTPUT -p icmp -j ACCEPT
--A OUTPUT -p tcp -m tcp --dport 655 -j ACCEPT
--A OUTPUT -p udp -m udp --dport 655 -j ACCEPT
+# In the online testing phase, they were available from the same host (NAT+port forward)
+# In the live contest, they were seen as 3 separate servers.
 -A OUTPUT -p tcp -m tcp --dport 53 -j ACCEPT
 -A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
 -A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
--A OUTPUT -p tcp -m tcp -m multiport -d {SUBNET} --dports 22,80,443,10051 -j ACCEPT
+-A OUTPUT -p tcp -m tcp -m multiport -d {VENUE_SUBNET} --dports 80,443,10051 -j ACCEPT
 -A OUTPUT -p tcp -m tcp -m multiport -d {BACKUP_SERVER} --dports 22,80,443 -j ACCEPT
--A OUTPUT -p tcp -m tcp -m multiport -d {POP_SERVER} --dports 80,443 -j ACCEPT
+# Fall-back domain
 -A OUTPUT -p tcp -m tcp -m multiport -d {CMS_PUBLIC_DOMAIN} --dports 80,443 -j ACCEPT
+# For administrative blocking, rejecting is a good idea
+# e.g. dropping caused https://github.com/ioi-2023/contestant-vm/issues/78
+-A OUTPUT -j REJECT --reject-with icmp-admin-prohibited
 COMMIT
